@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sprint_6 — Автоматизация тестирования сервиса «Самокат»
 
 ## Описание проекта
@@ -41,3 +42,6 @@ allure generate allure-results --clean -o allure-report
 ```bash
 allure open allure-report
 ```
+=======
+Автоматизация тестирования сервиса «Самокат»
+>>>>>>> origin/main
