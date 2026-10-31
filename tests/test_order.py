@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
-from locators import OrderPageLocators
+from locators.order_page_locators import OrderPageLocators
 
 
 # Дата доставки — завтра

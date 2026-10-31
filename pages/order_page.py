@@ -4,14 +4,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from locators import OrderPageLocators
+from pages.base_page import BasePage
+from locators.order_page_locators import OrderPageLocators
 
 
-class OrderPage:
-
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+class OrderPage(BasePage):
 
     def fill_customer_info(
         self, first_name, last_name, address, metro, phone

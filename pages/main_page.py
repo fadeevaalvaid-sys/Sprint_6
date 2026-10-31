@@ -1,19 +1,13 @@
-
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pages.base_page import BasePage
+from locators.main_page_locators import MainPageLocators
 
-from locators import MainPageLocators
 
-
-class MainPage:
-
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+class MainPage(BasePage):
 
     def open(self):
         """Открывает главную страницу Самоката."""
-        self.driver.get("https://qa-scooter.praktikum-services.ru/")
+        self.go_to_url("https://qa-scooter.praktikum-services.ru/")
 
     def get_faq_answer(self, question_id):
         """Открывает вопрос FAQ и возвращает текст ответа."""
@@ -32,7 +26,6 @@ class MainPage:
             EC.visibility_of_element_located(question_locator)
         )
 
-        # Прокручиваем страницу к нужному вопросу
         self.driver.execute_script(
             "arguments[0].scrollIntoView({block: 'center'});",
             question
@@ -42,7 +35,6 @@ class MainPage:
             EC.element_to_be_clickable(question_locator)
         )
 
-        # Если вопрос уже открыт, закрываем его
         if question.get_attribute("aria-expanded") == "true":
             question.click()
 
@@ -54,7 +46,6 @@ class MainPage:
                 )
             )
 
-        # Открываем вопрос
         question = self.wait.until(
             EC.element_to_be_clickable(question_locator)
         )
@@ -124,6 +115,7 @@ class MainPage:
         self.wait.until(
             EC.number_of_windows_to_be(len(old_windows) + 1)
         )
+
 
         new_window = [
             window
