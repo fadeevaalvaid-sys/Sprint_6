@@ -1,15 +1,10 @@
-
 from datetime import datetime, timedelta
 
 import pytest
 import allure
 
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 from pages.main_page import MainPage
 from pages.order_page import OrderPage
-from locators.order_page_locators import OrderPageLocators
 
 
 # Дата доставки — завтра
@@ -49,6 +44,7 @@ class TestOrder:
         ]
     )
     @allure.story("Позитивный сценарий оформления заказа")
+    @allure.step("Оформить заказ через кнопку {entry_point}")
     def test_order_flow(
         self,
         driver,
@@ -95,13 +91,9 @@ class TestOrder:
             order_page.click_order_button()
 
         with allure.step("Проверить окно подтверждения заказа"):
-            confirmation = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located(
-                    OrderPageLocators.CONFIRMATION_TITLE
-                )
-            )
+            confirmation = order_page.get_confirmation_title()
 
-            assert "Хотите оформить заказ?" in confirmation.text
+            assert "Хотите оформить заказ?" in confirmation
 
         with allure.step("Подтвердить оформление заказа"):
             order_page.confirm_order()
@@ -117,8 +109,8 @@ class TestOrder:
 class TestNavigation:
 
     @allure.story("Переход на главную страницу по логотипу Самоката")
+    @allure.step("Проверить переход на главную страницу по логотипу Самоката")
     def test_scooter_logo_redirects_to_main_page(self, driver):
-
         main_page = MainPage(driver)
 
         with allure.step("Открыть главную страницу Самоката"):
@@ -128,19 +120,11 @@ class TestNavigation:
             main_page.click_scooter_logo()
 
         with allure.step("Проверить переход на главную страницу"):
-            WebDriverWait(driver, 10).until(
-                EC.url_to_be(
-                    "https://qa-scooter.praktikum-services.ru/"
-                )
-            )
-
-            assert driver.current_url == (
-                "https://qa-scooter.praktikum-services.ru/"
-            )
+            assert main_page.is_main_page_opened()
 
     @allure.story("Переход на главную страницу Дзена по логотипу Яндекса")
+    @allure.step("Проверить переход на Дзен по логотипу Яндекса")
     def test_yandex_logo_opens_dzen(self, driver):
-
         main_page = MainPage(driver)
 
         with allure.step("Открыть главную страницу Самоката"):
@@ -150,4 +134,4 @@ class TestNavigation:
             main_page.click_yandex_logo()
 
         with allure.step("Проверить переход на страницу Дзена"):
-            assert "dzen.ru" in driver.current_url
+            assert main_page.is_dzen_opened()

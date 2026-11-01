@@ -1,4 +1,3 @@
-
 import pytest
 import allure
 
@@ -59,6 +58,7 @@ class TestFAQ:
             ),
         ]
     )
+    @allure.step("Проверить ответ на вопрос FAQ №{question_id}")
     def test_faq_answer(self, driver, question_id, expected_answer):
         main_page = MainPage(driver)
 

@@ -24,7 +24,6 @@ class OrderPageLocators:
         "input[placeholder='* Станция метро']"
     )
 
-    # Вариант станции в выпадающем списке
     METRO_OPTION = (
         By.XPATH,
         "//*[contains(@class, 'select-search__option') and normalize-space()='{}']"
@@ -46,6 +45,11 @@ class OrderPageLocators:
         "input[placeholder='* Когда привезти самокат']"
     )
 
+    CALENDAR = (
+        By.CSS_SELECTOR,
+        ".react-datepicker"
+    )
+
     RENTAL_PERIOD = (
         By.CSS_SELECTOR,
         "div.Dropdown-control"
@@ -53,7 +57,7 @@ class OrderPageLocators:
 
     RENTAL_PERIOD_OPTION = (
         By.XPATH,
-        "//div[@role='option' and text()='{}']"
+        "//div[@role='option' and normalize-space()='{}']"
     )
 
     BLACK_SCOOTER = (
@@ -97,4 +101,3 @@ class OrderPageLocators:
         By.XPATH,
         "//div[contains(@class, 'Order_Text')]"
     )
-
