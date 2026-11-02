@@ -65,10 +65,7 @@ class TestOrder:
             main_page.open()
 
         with allure.step("Перейти к форме заказа"):
-            if entry_point == "top":
-                main_page.click_order_button_top()
-            else:
-                main_page.click_order_button_bottom()
+            main_page.click_order_button(entry_point)
 
         with allure.step("Заполнить форму с данными клиента"):
             order_page.fill_customer_info(

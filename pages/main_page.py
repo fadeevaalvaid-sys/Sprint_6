@@ -1,3 +1,4 @@
+
 import allure
 
 from pages.base_page import BasePage
@@ -25,9 +26,10 @@ class MainPage(BasePage):
 
         self.scroll_to_element(question_locator)
 
-        question = self.find_clickable_element(question_locator)
-
-        if question.get_attribute("aria-expanded") == "true":
+        if self.get_attribute(
+            question_locator,
+            "aria-expanded"
+        ) == "true":
             self.click_element(question_locator)
 
             self.wait_for_attribute(
@@ -48,19 +50,19 @@ class MainPage(BasePage):
 
         return answer.text
 
-    @allure.step("Нажать верхнюю кнопку Заказать")
-    def click_order_button_top(self):
-        self.click_element(MainPageLocators.ORDER_BUTTON_TOP)
-
-    @allure.step("Нажать нижнюю кнопку Заказать")
-    def click_order_button_bottom(self):
-        self.scroll_to_element(
-            MainPageLocators.ORDER_BUTTON_BOTTOM
-        )
-
-        self.click_element(
-            MainPageLocators.ORDER_BUTTON_BOTTOM
-        )
+    @allure.step("Нажать кнопку Заказать")
+    def click_order_button(self, entry_point):
+        if entry_point == "top":
+            self.click_element(
+                MainPageLocators.ORDER_BUTTON_TOP
+            )
+        else:
+            self.scroll_to_element(
+                MainPageLocators.ORDER_BUTTON_BOTTOM
+            )
+            self.click_element(
+                MainPageLocators.ORDER_BUTTON_BOTTOM
+            )
 
     @allure.step("Нажать на логотип Самоката")
     def click_scooter_logo(self):
@@ -68,7 +70,7 @@ class MainPage(BasePage):
 
     @allure.step("Нажать на логотип Яндекса")
     def click_yandex_logo(self):
-        old_windows = self.driver.window_handles
+        old_windows = self.get_window_handles()
 
         self.click_element(MainPageLocators.YANDEX_LOGO)
 
@@ -78,8 +80,8 @@ class MainPage(BasePage):
 
     @allure.step("Проверить, что открыта главная страница Самоката")
     def is_main_page_opened(self):
-        return self.driver.current_url == MAIN_PAGE_URL
+        return self.get_current_url() == MAIN_PAGE_URL
 
     @allure.step("Проверить, что открыта страница Дзена")
     def is_dzen_opened(self):
-        return DZEN_URL in self.driver.current_url
+        return DZEN_URL in self.get_current_url()

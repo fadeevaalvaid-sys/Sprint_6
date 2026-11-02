@@ -1,3 +1,4 @@
+
 import allure
 
 from selenium.webdriver.common.keys import Keys
@@ -14,6 +15,14 @@ class BasePage:
     @allure.step("Перейти по адресу {url}")
     def go_to_url(self, url):
         self.driver.get(url)
+
+    @allure.step("Получить текущий URL")
+    def get_current_url(self):
+        return self.driver.current_url
+
+    @allure.step("Получить список открытых вкладок")
+    def get_window_handles(self):
+        return self.driver.window_handles
 
     @allure.step("Найти видимый элемент")
     def find_element(self, locator):
@@ -101,7 +110,7 @@ class BasePage:
 
         new_window = [
             window
-            for window in self.driver.window_handles
+            for window in self.get_window_handles()
             if window not in old_windows
         ][0]
 
